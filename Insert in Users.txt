@@ -1,0 +1,12 @@
+INSERT INTO Users (Full_Name, CNIC, E_Mail, Phone, Address)
+SELECT 
+    'User ' || gs,
+    LPAD((gs + 1000000000000)::text, 13, '0'),
+    'user' || gs || '@example.com',
+    '0300' || LPAD(gs::text, 7, '0'),
+    'Some Address ' || gs
+FROM generate_series(1, 10000) AS gs;
+
+
+# To change the number of user just have to increase the
+range 

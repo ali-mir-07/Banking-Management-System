@@ -1,0 +1,7 @@
+INSERT INTO Branch (Branch_Name, Branch_Code, Address, Phone)
+SELECT 
+    'Branch ' || gs, 
+    'BR' || LPAD(gs::text, 3, '0'), 
+    'Address of Branch ' || gs, 
+    '0300-000000' || gs
+FROM generate_series(1, 10) AS gs;

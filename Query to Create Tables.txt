@@ -1,0 +1,40 @@
+-- Users Table
+CREATE TABLE Users (
+    User_Id SERIAL PRIMARY KEY,
+    Full_Name VARCHAR(100) NOT NULL,
+    CNIC VARCHAR(15) UNIQUE NOT NULL,
+    E_Mail VARCHAR(100),
+    Phone VARCHAR(20),
+    Address TEXT,
+    Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Branch Table
+CREATE TABLE Branch (
+    Branch_Id SERIAL PRIMARY KEY,
+    Branch_Name VARCHAR(100) NOT NULL,
+    Branch_Code VARCHAR(20) UNIQUE NOT NULL,
+    Address TEXT,
+    Phone VARCHAR(20)
+);
+
+-- Accounts Table
+CREATE TABLE Accounts (
+    Account_Id SERIAL PRIMARY KEY,
+    User_Id INTEGER NOT NULL REFERENCES Users(User_Id) ON DELETE CASCADE,
+    Branch_Id INTEGER NOT NULL REFERENCES Branch(Branch_Id) ON DELETE CASCADE,
+    Account_Type VARCHAR(20) NOT NULL, -- e.g., 'Savings', 'Checking'
+    Balance NUMERIC(12, 2) DEFAULT 0.00,
+    Status VARCHAR(20) DEFAULT 'Active',
+    Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Transactions Table
+CREATE TABLE Transaction (
+    Trans_Id SERIAL PRIMARY KEY,
+    From_Account_Id INTEGER REFERENCES Accounts(Account_Id),
+    To_Account_Id INTEGER REFERENCES Accounts(Account_Id),
+    Amount NUMERIC(12, 2) NOT NULL CHECK (Amount > 0),
+    Trans_Type VARCHAR(20) NOT NULL, -- e.g., 'Deposit', 'Withdrawal', 'Transfer'
+    Time_Stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

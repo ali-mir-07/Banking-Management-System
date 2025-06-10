@@ -1,0 +1,15 @@
+INSERT INTO transactions (from_account_id, to_account_id, amount, trans_type, time_stamp)
+SELECT
+    FLOOR(RANDOM() * 50000 + 1)::int AS from_account_id,          -- Random valid from_account_id (1 - 50000)
+    FLOOR(RANDOM() * 50000 + 1)::int AS to_account_id,            -- Random valid to_account_id (1 - 50000)
+    ROUND((RANDOM() * 10000)::numeric, 2) AS amount,              -- Random amount up to 10,000
+    CASE 
+        WHEN RANDOM() < 0.4 THEN 'Credit'
+        WHEN RANDOM() < 0.7 THEN 'Debit'
+        ELSE 'Transfer'
+    END AS trans_type,                                            -- Random transaction type
+    NOW() - (INTERVAL '1 day' * FLOOR(RANDOM() * 365)) AS time_stamp -- Random date in last 1 year
+FROM generate_series(1, 10000) AS gs;
+
+
+-- To change the number of transactions just have to change the range to add more transactiosn

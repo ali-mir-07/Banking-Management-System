@@ -1,0 +1,11 @@
+INSERT INTO Accounts (User_Id, Branch_Id, Account_Type, Balance, Status)
+SELECT 
+    gs,                                 -- User_Id (1 to 50000 sequentially exists)
+    FLOOR(RANDOM() * 10 + 1)::int,      -- Branch_Id (1 to 10)
+    CASE WHEN RANDOM() < 0.5 THEN 'Savings' ELSE 'Checking' END,
+    ROUND((RANDOM() * 100000)::numeric, 2), -- Balance
+    'Active'
+FROM generate_series(1, 10000) AS gs;
+
+-- To change the number of accounts, just increase the range
+and the number of accounts will be added
